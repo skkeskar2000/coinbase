@@ -15,31 +15,32 @@ def on_open(ws):
         ],
         "channels": [
             "level2",
-            # "ticker"
+            "ticker"
         ]
     }))
     
 def on_message(ws,message):
     data = json.loads(message)
     if "type" in data:
-        if data["type"] == "level2":
-            print(data)
+        if data["type"] == "l2update":
             store_level2_data(data)
         elif data["type"] == "ticker":
             store_ticker_data(data)
  
+wb2 = Workbook()
+ws2 = wb2.active
+ws2.append(["ProductId","timestamp","changes"])
 def store_level2_data(data):
-    wb2 = Workbook()
-    ws = wb2.active
-    ws.append(["timestamp", "bids", "asks"])
+    ws2 = wb2.active
     print(data)
-    for level in data["bids"]:
-        ws.append([data["timestamp"], level[0], level[1]])
+    # ws2.append(data['product_id'],data["time"],data["changes"])
+    # for level in data["bids"]:
+    #     ws.append([data["time"], level[0], level[1]])
 
-    for level in data["asks"]:
-        ws.append([data["timestamp"], level[0], level[1]])
+    # for level in data["asks"]:
+    #     ws.append([data["time"], level[0], level[1]])
 
-    wb2.save("market_data_level2.xlsx")
+    wb2.save(filename = "market_data_level.xlsx")
 
 wb = Workbook()
 ws = wb.active
@@ -48,17 +49,25 @@ ws.append(["timestamp", "price", "last_size", "bid", "ask"])
 def store_ticker_data(data):
     ws = wb.active
     ws.append([data["time"], data["price"], data["last_size"], data["best_bid"], data["best_ask"]])
-    wb.save(filename = "market_data.xlsx")
-    # file = open("market_data.csv","w")
-    # file.write("timestamp, price, last_size, bid, ask")
-    # print(data["time"] +","+data["price"] +","+ data["last_size"]+ ","+data["best_bid"]+"," +data["best_ask"])
-    # file.write(data["time"] +","+data["price"] +","+ data["last_size"]+ ","+data["best_bid"]+"," +data["best_ask"])
-    # file.close()
-       
+    wb.save(filename = "market_data_ticker.xlsx")
+    
 socket = 'wss://ws-feed.pro.coinbase.com'
 
 ws = websocket.WebSocketApp(socket,on_open=on_open,on_message=on_message)
+   
 ws.run_forever()
+# import threading
+# import time
+
+# def check_timeout():
+#     start_time = time.time()
+#     while True:
+#         if time.time() - start_time > 5:
+#             ws.close()
+#             break
+
+# timeout_thread = threading.Thread(target=check_timeout)
+# timeout_thread.start()
 
 
 
