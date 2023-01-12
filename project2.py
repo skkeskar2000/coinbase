@@ -21,12 +21,13 @@ def on_message(ws,message):
             store_ticker_data(data)
  
  
- 
+#  Add Level two data
 file1 = open("market_data_level.csv","a")
 file1.write("Type,ProductId,Changes,Timestamp\n")
 def store_level2_data(data): 
     file1.write(data['type']+","+data['product_id']+","+str(data["changes"])+","+data["time"]+"\n")
     
+
 
 # wb = Workbook()
 # ws = wb.active
@@ -46,18 +47,16 @@ def store_ticker_data(data):
             dictKey += str(key)+","   
         print(dictKey)
         file2.write(dictKey+"\n")
-        
+    # isHead2 = False
+            
     dictValue = ""
     for value in data.values():
         dictValue += str(value)+","
     file2.write(dictValue+"\n")
-    # file2.write(data['time']+","+data["price"]+","+data["last_size"]+","+data["best_bid"]+","+data["best_ask"]+"\n")
-
+    
     
 socket = 'wss://ws-feed.pro.coinbase.com'
-
 ws = websocket.WebSocketApp(socket,on_open=on_open,on_message=on_message)
-   
 ws.run_forever()
 
 
