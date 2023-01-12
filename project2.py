@@ -24,7 +24,7 @@ def on_message(ws,message):
  
 file1 = open("market_data_level.csv","a")
 file1.write("Type,ProductId,Changes,Timestamp\n")
-def store_level2_data(data):
+def store_level2_data(data): 
     file1.write(data['type']+","+data['product_id']+","+str(data["changes"])+","+data["time"]+"\n")
     
 
@@ -33,14 +33,25 @@ def store_level2_data(data):
 # ws.append(["timestamp", "price", "last_size", "bid", "ask"])
 # wb.save(filename = "market_data_ticker.xlsx")
 file2 = open("market_data_ticker.csv","a")
-file2.write("Timestamp, Price, Aast_size, Bid, ask\n")
+isHead2 = True
 def store_ticker_data(data):
     # ws = wb.active
     # ws.append([data["time"], data["price"], data["last_size"], data["best_bid"], data["best_ask"]])
     # wb.save(filename = "market_data_ticker.xlsx")
     # wb.close()
-    print(data)
-    file2.write(data['time']+","+data["price"]+","+data["last_size"]+","+data["best_bid"]+","+data["best_ask"]+"\n")
+    # print(data)
+    dictKey = ""
+    if isHead2:
+        for key in data.keys():
+            dictKey += str(key)+","   
+        print(dictKey)
+        file2.write(dictKey+"\n")
+        
+    dictValue = ""
+    for value in data.values():
+        dictValue += str(value)+","
+    file2.write(dictValue+"\n")
+    # file2.write(data['time']+","+data["price"]+","+data["last_size"]+","+data["best_bid"]+","+data["best_ask"]+"\n")
 
     
 socket = 'wss://ws-feed.pro.coinbase.com'
