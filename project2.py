@@ -23,7 +23,7 @@ def on_message(ws,message):
  
  
 file1 = open("market_data_level.csv","a")
-file1.write("Type,ProductId,Changes,Timestamp\n")
+file1.write("Type,ProductId,Changes,,,Timestamp\n")
 def store_level2_data(data):
     file1.write(data['type']+","+data['product_id']+","+str(data["changes"])+","+data["time"]+"\n")
     
