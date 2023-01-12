@@ -64,5 +64,5 @@ def run_ws():
 t = threading.Thread(target=run_ws)
 t.start()
 
-timer = threading.Timer(300, ws.close) # close the connection after 300 seconds (5 minutes)
+timer = threading.Timer(30, ws.close) # close the connection after 300 seconds (5 minutes)
 timer.start()
