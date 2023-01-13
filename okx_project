@@ -54,7 +54,6 @@ okex = ccxt.okex()
 # level2_data = okex.fetch_order_book('BTC/USDT', limit=1)
 for x in range(1,30):
   level2_data = okex.fetch_order_book('BTC/USDT', limit=1)
-  
   print(level2_data)
 
 # Fetch trade history
