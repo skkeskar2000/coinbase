@@ -1,0 +1,2 @@
+info,timestamp,datetime,symbol,id,order,type,takerOrMaker,side,price,amount,cost,fee,fees,
+{'instId': 'BTC-USDT', 'side': 'sell', 'sz': '0.0001', 'px': '19277.4', 'tradeId': '392880503', 'ts': '1673633336363'},1673633336363,2023-01-13T18:08:56.363Z,BTC/USDT,392880503,None,None,None,sell,19277.4,0.0001,1.92774,None,[],
