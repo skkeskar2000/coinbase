@@ -57,10 +57,10 @@ for x in range(1,30):
   print(level2_data)
 
 # Fetch trade history
-trade_data = okex.fetch_trades('BTC/USDT')
+trade_data = okex.fetch_trades('BTC/USDT',limit=30)
 
 # Save level-2 data to a CSV file
-with open('level2_data.csv', mode='w') as level2_file:
+with open('okx_level2_data.csv', mode='w') as level2_file:
     fieldnames = ['bids', 'asks']
     writer = csv.DictWriter(level2_file, fieldnames=fieldnames)
     writer.writeheader()
@@ -68,7 +68,7 @@ with open('level2_data.csv', mode='w') as level2_file:
         writer.writerow({'bids': bid, 'asks': ask})
 
 # Save trade data to a CSV file
-with open('trade_data.csv', mode='w') as trade_file:
+with open('okx_trade_data.csv', mode='w') as trade_file:
     fieldnames = ['timestamp', 'symbol', 'side', 'amount', 'price']
     writer = csv.DictWriter(trade_file, fieldnames=fieldnames)
     writer.writeheader()
