@@ -57,7 +57,7 @@ for x in range(1,30):
   print(level2_data)
 
 # Fetch trade history
-trade_data = okex.fetch_trades('BTC/USDT',limit=30)
+trade_data = okex.fetch_trades('BTC/USDT')
 
 # Save level-2 data to a CSV file
 with open('okx_level2_data.csv', mode='w') as level2_file:
