@@ -44,25 +44,34 @@
 
 # timer = threading.Timer(30, ws.close) # close the connection after 30 seconds
 # timer.start()
+import ccxt
+import csv
 
-from fastapi import FastAPI
-from typing import List
-import json
-import asyncio
-import websockets
+# Initialize the exchange object
+okex = ccxt.okex()
 
-app = FastAPI()
+# Fetch level-2 order book
+# level2_data = okex.fetch_order_book('BTC/USDT', limit=1)
+for x in range(1,30):
+  level2_data = okex.fetch_order_book('BTC/USDT', limit=1)
+  
+  print(level2_data)
 
-@app.websocket("/ws")
-async def websocket_endpoint(websocket: websockets):
-    await websocket.accept()
+# Fetch trade history
+trade_data = okex.fetch_trades('BTC/USDT')
 
-    # Set up the WebSocket endpoint and authentication parameters
-    async with websockets.connect("wss://real.okex.com:10441/ws/v3") as ws:
-        sub_data = {"op": "subscribe", "args": ["spot/depth5:BTC-USDT"]}
-        await ws.send(json.dumps(sub_data))
+# Save level-2 data to a CSV file
+with open('level2_data.csv', mode='w') as level2_file:
+    fieldnames = ['bids', 'asks']
+    writer = csv.DictWriter(level2_file, fieldnames=fieldnames)
+    writer.writeheader()
+    for bid, ask in zip(level2_data['bids'], level2_data['asks']):
+        writer.writerow({'bids': bid, 'asks': ask})
 
-        while True:
-            # Receive and print the data updates
-            result = json.loads(await ws.recv())
-            await websocket.send_json(result)
+# Save trade data to a CSV file
+with open('trade_data.csv', mode='w') as trade_file:
+    fieldnames = ['timestamp', 'symbol', 'side', 'amount', 'price']
+    writer = csv.DictWriter(trade_file, fieldnames=fieldnames)
+    writer.writeheader()
+    for trade in trade_data:
+        writer.writerow({'timestamp': trade['timestamp'], 'symbol': trade['symbol'], 'side': trade['side'], 'amount': trade['amount'], 'price': trade['price']})
