@@ -35,7 +35,7 @@ file2 = open("market_data_ticker.csv","a")
 file2.write("Type,Sequence,Product_ID,Price,Open_24h,Volume_24h,Low_24h,High_24h,Volume_30d,Best_bid,Best_bid_size,Best_ask,Best_ask_size,Side,Trade_ID,Last_size,Time\n")
 def store_ticker_data(data):
     print(data)
-    #file2.write(f"{data['type']},{data['sequence']},{data['product_id']},{data['price']},{data['open_24h']},{data['volume_24h']},{data['low_24h']},{data['high_24h']},{data['volume_30d']},{data['best_bid']},{data['best_bid_size']},{data['best_ask']},{data['best_ask_size']},{data['side']},{data['trade_id']},{data['last_size']},{data['time']}\n")
+    file2.write(f"{data['type']},{data['sequence']},{data['product_id']},{data['price']},{data['open_24h']},{data['volume_24h']},{data['low_24h']},{data['high_24h']},{data['volume_30d']},{data['best_bid']},{data['best_bid_size']},{data['best_ask']},{data['best_ask_size']},{data['side']},{data['trade_id']},{data['last_size']},{data['time']}\n")
 
     # ws = wb.active
     # ws.append([data["time"], data["price"], data["last_size"], data["best_bid"], data["best_ask"]])
@@ -50,10 +50,10 @@ def store_ticker_data(data):
     #     file2.write(dictKey+"\n")
     # isHead2 = False
             
-    dictValue = ""
-    for value in data.values():
-        dictValue += str(value)+","
-    file2.write(dictValue+"\n")
+    # dictValue = ""
+    # for value in data.values():
+    #     dictValue += str(value)+","
+    # file2.write(dictValue+"\n")
     
 socket = 'wss://ws-feed.pro.coinbase.com'
 
