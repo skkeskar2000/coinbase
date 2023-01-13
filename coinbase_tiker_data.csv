@@ -1,0 +1,2 @@
+symbol,timestamp,datetime,high,low,bid,bidVolume,ask,askVolume,vwap,open,close,last,previousClose,change,percentage,average,baseVolume,quoteVolume,info,
+BTC/USDT,1673633401000,2023-01-13T18:10:01.000Z,19222.0,18493.8,19201.9,None,19655.4,None,None,None,19097.0,19097.0,None,None,None,None,0.45093879,None,
