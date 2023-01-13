@@ -1,0 +1,68 @@
+# import time, threading
+# import websocket, json
+
+# def on_open(ws):
+#     ws.send(json.dumps({
+#         "event": "addChannel",
+#         "channel": "ok_sub_spot_btc_usdt_depth"
+#     }))
+#     ws.send(json.dumps({
+#         "event": "addChannel",
+#         "channel": "ok_sub_spot_btc_usdt_trade"
+#     }))
+    
+# def on_message(ws, message):
+#     data = json.loads(message)
+#     if "channel" in data:
+#         if data["channel"] == "ok_sub_spot_btc_usdt_depth":
+#             store_level2_data(data)
+#         elif data["channel"] == "ok_sub_spot_btc_usdt_trade":
+#             store_trade_data(data)
+ 
+ 
+# #Store market_data_level2
+# file1 = open("okx_market_data_level2.csv","a")
+# file1.write("Channel,Timestamp,Asks,Bids\n")
+# def store_level2_data(data):
+#     file1.write(f"{data['channel']},{data['timestamp']},{data['asks']},{data['bids']}\n")
+
+# #Store trade data
+# file2 = open("okx_market_data_trade.csv","a")
+# file2.write("Channel,Timestamp,Trade_ID,Price,Size,Side\n")
+# def store_trade_data(data):
+#     print(data)
+#     file2.write(f"{data['channel']},{data['timestamp']},{data['data'][0]['tid']},{data['data'][0]['price']},{data['data'][0]['amount']},{data['data'][0]['type']}\n")
+
+# socket = 'wss://real.okex.com:10441/websocket'
+
+# ws = websocket.WebSocketApp(socket,on_open=on_open,on_message=on_message)
+# def run_ws():
+#     ws.run_forever()
+
+# t = threading.Thread(target=run_ws)
+# t.start()
+
+# timer = threading.Timer(30, ws.close) # close the connection after 30 seconds
+# timer.start()
+
+from fastapi import FastAPI
+from typing import List
+import json
+import asyncio
+import websockets
+
+app = FastAPI()
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: websockets):
+    await websocket.accept()
+
+    # Set up the WebSocket endpoint and authentication parameters
+    async with websockets.connect("wss://real.okex.com:10441/ws/v3") as ws:
+        sub_data = {"op": "subscribe", "args": ["spot/depth5:BTC-USDT"]}
+        await ws.send(json.dumps(sub_data))
+
+        while True:
+            # Receive and print the data updates
+            result = json.loads(await ws.recv())
+            await websocket.send_json(result)
