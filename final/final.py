@@ -17,4 +17,3 @@ print(coinbase_level2_data["bids"][0][0])
 
 
 
-
