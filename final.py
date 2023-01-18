@@ -7,7 +7,7 @@ okx = ccxt.okex()
 
 # Set the interval for data fetches (in seconds)
 #interval = 60 #600 sec 10 min
-endTime = datetime.datetime.now() + datetime.timedelta(minutes=1)
+endTime = datetime.datetime.now() + datetime.timedelta(seconds=10)
 # i=0
 while True:
     if datetime.datetime.now() >= endTime:
